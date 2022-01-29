@@ -1,11 +1,11 @@
 export const calculate = async (data) => {
-  var Pof_Fever = { yes: 0, no:0 };
+  var Pof_Fever = { infectionYes: { yes: 0, no:0 }, infectionNo: { yes: 0, no:0 } };
 
-  var Pof_Bodypain = {yes: 0, no: 0};
+  var Pof_Bodypain = { infectionYes: { yes: 0, no:0 }, infectionNo: { yes: 0, no:0 } };
 
-  var Pof_Runnynose = {yes: 0, no: 0};
+  var Pof_Runnynose = { infectionYes: { yes: 0, no:0 }, infectionNo: { yes: 0, no:0 } };
 
-  var Pof_Difficultybreathing = {difficult: 0, mild: 0, none:0};
+  var Pof_Difficultybreathing = { infectionYes: {difficult: 0, mild: 0, none:0}, infectionNo: {difficult: 0, mild: 0, none:0} };
 
   //Calculations...
 
