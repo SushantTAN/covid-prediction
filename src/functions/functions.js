@@ -35,8 +35,26 @@ export const calculate = async (data) => {
 
 
     //Calculate probalilities of body pain ......
-    
+    if (el.bodyPain === 1) {
+      if (el.infectionProb === 1) { Pof_Bodypain.infectionYes.yes = Pof_Bodypain.infectionYes.yes + 1 }
+      if (el.infectionProb === 0) { Pof_Bodypain.infectionNo.yes = Pof_Bodypain.infectionNo.yes + 1 }
+    }
+    if (el.bodyPain === 0) {
+      if (el.infectionProb === 1) { Pof_Bodypain.infectionYes.no = Pof_Bodypain.infectionYes.no + 1 }
+      if (el.infectionProb === 0) { Pof_Bodypain.infectionNo.no = Pof_Bodypain.infectionNo.no + 1 }
+    }
+
+
     //Calculate probabilities of runny nose ......
+    if (el.runnyNose === 1) {
+      if (el.infectionProb === 1) { Pof_Runnynose.infectionYes.yes = Pof_Runnynose.infectionYes.yes + 1 }
+      if (el.infectionProb === 0) { Pof_Runnynose.infectionNo.yes = Pof_Runnynose.infectionNo.yes + 1 }
+    }
+    if (el.runnyNose === 0) {
+      if (el.infectionProb === 1) { Pof_Runnynose.infectionYes.no = Pof_Runnynose.infectionYes.no + 1 }
+      if (el.infectionProb === 0) { Pof_Runnynose.infectionNo.no = Pof_Runnynose.infectionNo.no + 1 }
+    }
+
 
     //Calculate probabilities of difficulty breathing ......
     if (el.diffBreath === 1) {
@@ -61,8 +79,16 @@ export const calculate = async (data) => {
   Pof_Fever.infectionNo.low = Pof_Fever.infectionNo.low / Pof_no;
 
   //Body pain probabilities....
+  Pof_Bodypain.infectionYes.yes = Pof_Bodypain.infectionYes.yes / Pof_yes;
+  Pof_Bodypain.infectionYes.no = Pof_Bodypain.infectionYes.no / Pof_yes;
+  Pof_Bodypain.infectionNo.yes = Pof_Bodypain.infectionNo.yes / Pof_no;
+  Pof_Bodypain.infectionNo.no = Pof_Bodypain.infectionNo.no / Pof_no;
 
   //Runny nose probabilities...
+  Pof_Runnynose.infectionYes.yes = Pof_Runnynose.infectionYes.yes / Pof_yes;
+  Pof_Runnynose.infectionYes.no = Pof_Runnynose.infectionYes.no / Pof_yes;
+  Pof_Runnynose.infectionNo.yes = Pof_Runnynose.infectionNo.yes / Pof_no;
+  Pof_Runnynose.infectionNo.no = Pof_Runnynose.infectionNo.no / Pof_no;
 
   //Difficulty breathing probabilities...
   Pof_Difficultybreathing.infectionYes.difficult = Pof_Difficultybreathing.infectionYes.difficult / Pof_yes;
@@ -80,13 +106,15 @@ export const calculate = async (data) => {
 
 
 
-  console.log("test 1", Pof_Difficultybreathing);
+  console.log("test 1", Pof_Fever);
 
   return {
     Pof_Fever,
     Pof_Bodypain,
     Pof_Runnynose,
     Pof_Difficultybreathing,
+    Pof_yes,
+    Pof_no,
   }
 
 }
