@@ -1,6 +1,19 @@
 import React, { useState } from "react";
+
+import '../../App.css';
+
 import * as XLSX from "xlsx";
 import { calculate } from "../../functions/functions";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MarginLayout from "../../components/marginLayout";
+import Button from '@mui/material/Button';
+import { FlashAuto } from "@mui/icons-material";
+
 
 function Form() {
 
@@ -8,11 +21,20 @@ function Form() {
 
   const [probabilities, setProbabilities] = useState([]);
 
-  //input values
-  const [fever, setFever] = useState('high');
-  const [bodyPain, setBodyPain] = useState('yes');
-  const [runnyNose, setRunnyNose] = useState('yes');
-  const [diffBreath, setDiffBreath] = useState('difficult');
+  //Input values
+  const [fever, setFever] = useState('');
+  const [bodyPain, setBodyPain] = useState('');
+  const [runnyNose, setRunnyNose] = useState('');
+  const [diffBreath, setDiffBreath] = useState('');
+
+  //Errors
+  const [feverError, setFeverError] = useState(false);
+  const [bodyPainError, setBodyPainError] = useState(false);
+  const [runnyNoseError, setRunnyNoseError] = useState(false);
+  const [diffBreathError, setDiffBreathError] = useState(false);
+
+  //Output class
+  const [infectionClass, setInfectionClass] = useState('');
 
   const readExcel = (file) => {
     const promise = new Promise((resolve, reject) => {
@@ -50,7 +72,21 @@ function Form() {
   };
 
   const handleSubmit = async () => {
-    console.log("button click", probabilities.Pof_Runnynose)
+    console.log("button click", fever);
+
+    //Validation
+    setFeverError(false);
+    setBodyPainError(false);
+    setRunnyNoseError(false);
+    setDiffBreathError(false);
+
+    if(fever === '') { setFeverError(true); }
+    if(bodyPain === '') { setBodyPainError(true); }
+    if(runnyNose === '') { setRunnyNoseError(true); }
+    if(fever === '') { setFeverError(true); }
+
+    if(feverError || bodyPainError || runnyNoseError || diffBreathError ) { return 0; }
+
     var yfever;
     var nfever;
     var ybodyPain;
@@ -129,19 +165,47 @@ function Form() {
       * ndiffBreath;
 
     console.log("final", yes, no);
+
+    if (yes > no) { setInfectionClass('yes'); } else { setInfectionClass('no'); }
+  }
+
+  const handleChangeFerver = (e) => {
+    console.log(Number(e.target.value));
+    // if( typeof(Number(e.target.value)) === 'number'){
+    //   setFeverError(false);
+    // }
+
+    // if(Number(e.target.value) == 'NaN'){
+    //   console.log("happy")
+    // }
+
+    if (e.target.value > 99.5)
+      setFever('high');
+    else
+      setFever('low')
+  }
+
+  const handleChangeBodyPain = (e) => {
+    // console.log(e);
+    setBodyPainError(false);
+    setBodyPain(e.target.value);
+  }
+
+  const handleChangeRunnyNose = (e) => {
+    // console.log(e);
+    setRunnyNoseError(false);
+    setRunnyNose(e.target.value);
+  }
+
+  const handleChangeDiffBreath = (e) => {
+    // console.log(e);
+    setDiffBreathError(false);
+    setDiffBreath(e.target.value);
   }
 
   return (
-    <div>
-      <div
-        style={{
-          margin: 10,
-          // minHeight: "80vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+    <div className="flex_container">
+      <div className="container">
         <input
           type="file"
           onChange={(e) => {
@@ -150,7 +214,67 @@ function Form() {
           }}
         />
 
-        <input type='submit' onClick={handleSubmit} />
+        <MarginLayout error={feverError}>
+          <TextField
+            error={feverError}
+            // helperText="Required"
+            id="fever"
+            label="Fever (Farenheight)"
+            placeholder="eg: 98.6"
+            inputProps={{ inputMode: 'numeric' }}
+            variant="outlined"
+            onChange={handleChangeFerver}
+          />
+        </MarginLayout>
+
+        <MarginLayout error={bodyPainError}>
+
+          <InputLabel id="Body-Pain">Body Pain</InputLabel>
+          <Select
+            labelId="Body-Pain"
+            id="bodyPain"
+            value={bodyPain}
+            label="Body Pain"
+            onChange={handleChangeBodyPain}
+          >
+            <MenuItem value={'yes'}>Yes</MenuItem>
+            <MenuItem value={'no'}>No</MenuItem>
+          </Select>
+          
+        </MarginLayout>
+
+        <MarginLayout error={runnyNoseError}>
+          <InputLabel id="Runny-Nose">Runny Nose</InputLabel>
+          <Select
+            labelId="Runny-Nose"
+            id="runnyNose"
+            value={runnyNose}
+            label="Runny Nose"
+            onChange={handleChangeRunnyNose}
+          >
+            <MenuItem value={'yes'}>Yes</MenuItem>
+            <MenuItem value={'no'}>No</MenuItem>
+          </Select>
+        </MarginLayout>
+
+        <MarginLayout error={diffBreathError}>
+          <InputLabel id="Difficulty-Breathing">Difficulty Breathing</InputLabel>
+          <Select
+            labelId="Difficulty-Breathing"
+            id="diffBreath"
+            value={diffBreath}
+            label="Difficulty Breathing"
+            onChange={handleChangeDiffBreath}
+          >
+            <MenuItem value={'none'}>None</MenuItem>
+            <MenuItem value={'mild'}>Mild</MenuItem>
+            <MenuItem value={'difficult'}>Difficult</MenuItem>
+          </Select>
+        </MarginLayout>
+
+        <Button variant="contained" size="large" onClick={handleSubmit}>
+          Submit
+        </Button>
       </div>
     </div>
   );
