@@ -57,11 +57,11 @@ export const calculate = async (data) => {
 
 
     //Calculate probabilities of difficulty breathing ......
-    if (el.diffBreath === 1) {
+    if (el.diffBreath === 0) {
       if (el.infectionProb === 1) { Pof_Difficultybreathing.infectionYes.difficult = Pof_Difficultybreathing.infectionYes.difficult + 1 }
       if (el.infectionProb === 0) { Pof_Difficultybreathing.infectionNo.difficult = Pof_Difficultybreathing.infectionNo.difficult + 1 }
     }
-    if (el.diffBreath === 0) {
+    if (el.diffBreath === 1) {
       if (el.infectionProb === 1) { Pof_Difficultybreathing.infectionYes.mild = Pof_Difficultybreathing.infectionYes.mild + 1 }
       if (el.infectionProb === 0) { Pof_Difficultybreathing.infectionNo.mild = Pof_Difficultybreathing.infectionNo.mild + 1 }
     }

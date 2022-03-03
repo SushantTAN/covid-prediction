@@ -13,6 +13,11 @@ import Select from '@mui/material/Select';
 import MarginLayout from "../../components/marginLayout";
 import Button from '@mui/material/Button';
 import { FlashAuto } from "@mui/icons-material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 function Form() {
@@ -35,6 +40,9 @@ function Form() {
 
   //Output class
   const [infectionClass, setInfectionClass] = useState('');
+
+  //Dialog Status
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const readExcel = (file) => {
     const promise = new Promise((resolve, reject) => {
@@ -85,6 +93,8 @@ function Form() {
     if(runnyNose === '') { setRunnyNoseError(true); }
     if(fever === '') { setFeverError(true); }
 
+    console.log("fev error", feverError)
+
     if(feverError || bodyPainError || runnyNoseError || diffBreathError ) { return 0; }
 
     var yfever;
@@ -95,6 +105,8 @@ function Form() {
     var nrunnyNose;
     var ydiffBreath;
     var ndiffBreath;
+
+    if(feverError || bodyPainError || runnyNoseError || diffBreathError ) { return 0; }
 
     switch (fever) {
       case 'high':
@@ -167,10 +179,14 @@ function Form() {
     console.log("final", yes, no);
 
     if (yes > no) { setInfectionClass('yes'); } else { setInfectionClass('no'); }
+
+    if(fever === '' || bodyPain === '' || runnyNose === '' || fever === '') { } else { setDialogOpen(true); }
+
+    
   }
 
   const handleChangeFerver = (e) => {
-    console.log(Number(e.target.value));
+    console.log(e.target.value);
     // if( typeof(Number(e.target.value)) === 'number'){
     //   setFeverError(false);
     // }
@@ -179,10 +195,16 @@ function Form() {
     //   console.log("happy")
     // }
 
+    if(!isNaN(e.target.value)) {
+      setFeverError(false);
+    }
+
     if (e.target.value > 99.5)
       setFever('high');
-    else
-      setFever('low')
+    else if(e.target.value <= 99.5)
+      {setFever('low'); console.log("ytest fev")}
+    else 
+      setFever('');
   }
 
   const handleChangeBodyPain = (e) => {
@@ -275,6 +297,29 @@ function Form() {
         <Button variant="contained" size="large" onClick={handleSubmit}>
           Submit
         </Button>
+
+        <Dialog
+        
+        open={dialogOpen}
+        onClose={()=>{}}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" sx={{backgroundColor: infectionClass === 'yes' ?'#FF4E86' : '#00B305', color:'white'}}>
+          {infectionClass === 'yes' ?'You may have covid' : 'You have a low risk of infection'}
+        </DialogTitle>
+        <DialogContent sx={{backgroundColor: infectionClass === 'yes' ?'#FF4E86' : '#00B305', color:'white'}}>
+          <DialogContentText id="alert-dialog-description" sx={{color:'white'}}>
+            {'aaaaa'}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{backgroundColor: infectionClass === 'yes' ?'#FF4E86' : '#00B305', color:'white'}}>
+          <Button onClick={()=>{setDialogOpen(false)}} sx={{color:'white'}}>Disagree</Button>
+          <Button onClick={()=>{setDialogOpen(false)}} sx={{color:'white'}} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       </div>
     </div>
   );
