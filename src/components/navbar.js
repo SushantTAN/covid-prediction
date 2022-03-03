@@ -7,21 +7,33 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+// import Avatar from '@mui/material/Avatar';
+import MenuItem from '@mui/material/MenuItem';
+// import Typography from '@mui/material/Typography';
 
 const pages = ['Home', 'Predictor'];
 const routes = ['/', '/form'];
-// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Home', 'Predictor'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
   const handleCloseNavMenu = (e) => {
     console.log(e)
     setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   return (
@@ -40,7 +52,7 @@ const ResponsiveAppBar = () => {
           <img src="http://amritcampus.edu.np/wp-content/uploads/2017/06/amrit-campus-logo.png" alt="Ascol logo"/>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
+              {/* <IconButton
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -49,7 +61,7 @@ const ResponsiveAppBar = () => {
                 color="inherit"
               >
                 <MenuIcon />
-              </IconButton>
+              </IconButton> */}
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
@@ -71,7 +83,7 @@ const ResponsiveAppBar = () => {
                 {pages.map((page, index) => (
                   // <MenuItem key={page} onClick={handleCloseNavMenu}>
                   // <span style={{ color: 'white'}}>
-                  <a key={index} className="nav-link" style={{ color: 'white' }} href={routes[index]}>{page}</a>
+                  <a key={index} className="nav-link"  href={routes[index]}>{page}</a>
                   // </span>
                   // </MenuItem>
                 ))}
@@ -98,9 +110,16 @@ const ResponsiveAppBar = () => {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              {/* <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <Tooltip title="Open settings">
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
               </IconButton>
             </Tooltip>
             <Menu
@@ -121,10 +140,10 @@ const ResponsiveAppBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <p>{setting}</p>
                 </MenuItem>
               ))}
-            </Menu> */}
+            </Menu>
             </Box>
         </Toolbar>
       </Container>
