@@ -4,15 +4,12 @@ import '../../App.css';
 
 import * as XLSX from "xlsx";
 import { calculate } from "../../functions/functions";
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MarginLayout from "../../components/marginLayout";
 import Button from '@mui/material/Button';
-import { FlashAuto } from "@mui/icons-material";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -22,7 +19,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 function Form() {
 
-  const [items, setItems] = useState([]);
+  // const [items, setItems] = useState([]);
 
   const [probabilities, setProbabilities] = useState([]);
 
@@ -75,7 +72,7 @@ function Form() {
     });
 
     promise.then((d) => {
-      setItems(d);
+      // setItems(d);
     });
   };
 
