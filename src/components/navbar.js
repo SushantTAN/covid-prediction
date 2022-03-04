@@ -37,8 +37,8 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="sticky">
-      <Container maxWidth="xl">
+    <AppBar position="sticky" sx={{backgroundColor:'green'}} enableColorOnDark  color="primary">
+      <Container maxWidth="xl" sx={{backgroundColor:'green'}}>
         <Toolbar disableGutters>
           {/* <Typography
             variant="h6"
@@ -78,6 +78,7 @@ const ResponsiveAppBar = () => {
                 onClose={handleCloseNavMenu}
                 sx={{
                   display: { xs: 'block', md: 'none' },
+                  textAlign: 'right',
                 }}
               >
                 {pages.map((page, index) => (
