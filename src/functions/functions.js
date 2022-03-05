@@ -14,7 +14,7 @@ export const calculate = async (data) => {
 
   //USing the first two thirds of the dataset as trainning data
   var trainningData = data.slice(1, Math.ceil(data.length * 2 / 3));
-  console.log("test0, ", trainningData[0]);
+  // console.log("test0, ", trainningData[0]);
 
   var total_length = trainningData.length;
 
@@ -106,7 +106,7 @@ export const calculate = async (data) => {
 
 
 
-  console.log("test 1", Pof_Fever);
+  // console.log("test 1", Pof_Fever);
 
   return {
     Pof_Fever,

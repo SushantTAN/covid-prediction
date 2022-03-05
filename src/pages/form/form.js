@@ -17,6 +17,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import AdviceText from "../../components/AdviceText";
+// import AccuracyView from "../../modules/AccuracyView";
 
 function Form() {
 
@@ -343,6 +344,7 @@ function Form() {
           </DialogActions>
         </Dialog>
       </div>
+      {/* <AccuracyView /> */}
     </div>
   );
 }

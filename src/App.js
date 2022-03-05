@@ -7,6 +7,8 @@ import {
 import ResponsiveAppBar from "./components/navbar";
 import Form from "./pages/form/form";
 import Home from "./pages/home/home";
+import Login from "./pages/login/login";
+import Register from "./pages/register/register";
 
 export default function App() {
   return (
@@ -16,6 +18,8 @@ export default function App() {
 
           <Route path="/" element={<Home />} />
           <Route path="/form" element= {<Form />} />
+          <Route path="/login" element= {<Login />} />
+          <Route path="/register" element= {<Register />} />
 
       </Routes>
     </Router>
