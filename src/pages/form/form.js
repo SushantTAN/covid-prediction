@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import '../../App.css';
 
-import * as XLSX from "xlsx";
+// import * as XLSX from "xlsx";
 import { calculate } from "../../functions/functions";
+import { data } from "../../datasets/DataObject";
+
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,9 +15,8 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import AdviceText from "../../components/AdviceText";
 
 function Form() {
 
@@ -41,43 +42,53 @@ function Form() {
   //Dialog Status
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const readExcel = (file) => {
-    const promise = new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
+  useEffect(() => {
+    calculations();
+  }, []);
 
-      fileReader.onload = async (e) => {
-        const bufferArray = e.target.result;
+  const calculations = async () => {
+    const p = await calculate(data);
+    setProbabilities(p);
+  }
 
-        const wb = XLSX.read(bufferArray, { type: "buffer" });
+  // const readExcel = (file) => {
+  //   // console.log("ggg", file)
+  //   const promise = new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsArrayBuffer(file);
 
-        const wsname = wb.SheetNames[0];
+  //     fileReader.onload = async (e) => {
+  //       const bufferArray = e.target.result;
 
-        const ws = wb.Sheets[wsname];
+  //       const wb = XLSX.read(bufferArray, { type: "buffer" });
 
-        const data = XLSX.utils.sheet_to_json(ws);
-        // console.log(data[0]);
+  //       const wsname = wb.SheetNames[0];
 
-        //Probability calculations
-        const p = await calculate(data);
-        // console.log("llll", p)
-        setProbabilities(p);
+  //       const ws = wb.Sheets[wsname];
 
-        resolve(data);
-      };
+  //       const data = XLSX.utils.sheet_to_json(ws);
+  //       // console.log(data);
 
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
+  //       //Probability calculations
+  //       const p = await calculate(data);
+  //       // console.log("llll", p)
+  //       setProbabilities(p);
 
-    promise.then((d) => {
-      // setItems(d);
-    });
-  };
+  //       resolve(data);
+  //     };
+
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+
+  //   promise.then((d) => {
+  //     // setItems(d);
+  //   });
+  // };
 
   const handleSubmit = async () => {
-    console.log("button click", fever);
+    // console.log("button click", fever);
 
     //Validation
     setFeverError(false);
@@ -85,14 +96,14 @@ function Form() {
     setRunnyNoseError(false);
     setDiffBreathError(false);
 
-    if(fever === '') { setFeverError(true); }
-    if(bodyPain === '') { setBodyPainError(true); }
-    if(runnyNose === '') { setRunnyNoseError(true); }
-    if(fever === '') { setFeverError(true); }
+    if (fever === '') { setFeverError(true); }
+    if (bodyPain === '') { setBodyPainError(true); }
+    if (runnyNose === '') { setRunnyNoseError(true); }
+    if (diffBreath === '') { setDiffBreathError(true); }
 
-    console.log("fev error", feverError)
+    // console.log("fev error", feverError)
 
-    if(feverError || bodyPainError || runnyNoseError || diffBreathError ) { return 0; }
+    if (feverError || bodyPainError || runnyNoseError || diffBreathError) { return 0; }
 
     var yfever;
     var nfever;
@@ -103,7 +114,7 @@ function Form() {
     var ydiffBreath;
     var ndiffBreath;
 
-    if(feverError || bodyPainError || runnyNoseError || diffBreathError ) { return 0; }
+    if (feverError || bodyPainError || runnyNoseError || diffBreathError) { return 0; }
 
     switch (fever) {
       case 'high':
@@ -173,17 +184,17 @@ function Form() {
       * nrunnyNose
       * ndiffBreath;
 
-    console.log("final", yes, no);
+    // console.log("final", yes, no);
 
     if (yes > no) { setInfectionClass('yes'); } else { setInfectionClass('no'); }
 
-    if(fever === '' || bodyPain === '' || runnyNose === '' || fever === '') { } else { setDialogOpen(true); }
+    if (fever === '' || bodyPain === '' || runnyNose === '' || fever === '') { } else { setDialogOpen(true); }
 
-    
+
   }
 
   const handleChangeFerver = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     // if( typeof(Number(e.target.value)) === 'number'){
     //   setFeverError(false);
     // }
@@ -192,15 +203,17 @@ function Form() {
     //   console.log("happy")
     // }
 
-    if(!isNaN(e.target.value)) {
+    if (!isNaN(e.target.value)) {
       setFeverError(false);
     }
 
     if (e.target.value > 99.5)
       setFever('high');
-    else if(e.target.value <= 99.5)
-      {setFever('low'); console.log("ytest fev")}
-    else 
+    else if (e.target.value <= 99.5) {
+      setFever('low');
+      // console.log("ytest fev") 
+    }
+    else
       setFever('');
   }
 
@@ -225,13 +238,13 @@ function Form() {
   return (
     <div className="flex_container">
       <div className="container">
-        <input
+        {/* <input
           type="file"
           onChange={(e) => {
             const file = e.target.files[0];
             readExcel(file);
           }}
-        />
+        /> */}
 
         <MarginLayout error={feverError}>
           <TextField
@@ -259,7 +272,7 @@ function Form() {
             <MenuItem value={'yes'}>Yes</MenuItem>
             <MenuItem value={'no'}>No</MenuItem>
           </Select>
-          
+
         </MarginLayout>
 
         <MarginLayout error={runnyNoseError}>
@@ -291,32 +304,44 @@ function Form() {
           </Select>
         </MarginLayout>
 
-        <Button variant="contained" size="large" onClick={handleSubmit}>
+        <Button variant="contained" sx={{ backgroundColor: '#A50003' }} size="large" onClick={handleSubmit}>
           Submit
         </Button>
 
         <Dialog
-        
-        open={dialogOpen}
-        onClose={()=>{}}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title" sx={{backgroundColor: infectionClass === 'yes' ?'#FF4E86' : '#00B305', color:'white'}}>
-          {infectionClass === 'yes' ?'You may have covid' : 'You have a low risk of infection'}
-        </DialogTitle>
-        <DialogContent sx={{backgroundColor: infectionClass === 'yes' ?'#FF4E86' : '#00B305', color:'white'}}>
-          <DialogContentText id="alert-dialog-description" sx={{color:'white'}}>
-            {'aaaaa'}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions sx={{backgroundColor: infectionClass === 'yes' ?'#FF4E86' : '#00B305', color:'white'}}>
-          <Button onClick={()=>{setDialogOpen(false)}} sx={{color:'white'}}>Disagree</Button>
-          <Button onClick={()=>{setDialogOpen(false)}} sx={{color:'white'}} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
+
+          open={dialogOpen}
+          onClose={() => { }}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title" sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
+            {infectionClass === 'yes' ? 'You may have covid' : 'You have a low risk of infection'}
+          </DialogTitle>
+          {infectionClass === 'yes' ? <DialogContent sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
+            <AdviceText message="Consult a doctor" />
+            <AdviceText message="Keep a distance of at least 1 metre from others" />
+            <AdviceText message="Open windows when possible" />
+            <AdviceText message="Wear a mask" />
+            <AdviceText message="Clean hands" />
+            <AdviceText message="Cover coughs and sneezes" />
+            <AdviceText message="Take Care" />
+          </DialogContent>
+            : <DialogContent sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
+              <AdviceText message="But still take precautions" />
+              <AdviceText message="Wear a mask" />
+              <AdviceText message="Clean hands" />
+              <AdviceText message="Maintain social distancing" />
+              <AdviceText message="Stay safe" />
+            </DialogContent>
+          }
+          <DialogActions sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
+            <Button onClick={() => { setDialogOpen(false) }} sx={{ color: 'white' }}>Disagree</Button>
+            <Button onClick={() => { setDialogOpen(false) }} sx={{ color: 'white' }} autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );

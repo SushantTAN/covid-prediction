@@ -12,9 +12,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import Typography from '@mui/material/Typography';
 
-const pages = ['Home', 'Predictor'];
-const routes = ['/', '/form'];
-const settings = ['Home', 'Predictor'];
+const pages = ['Home', 'Predictor', 'login', 'register'];
+const routes = ['/', '/form', '/login', '/register'];
+const settings = ['Home', 'Predictor', 'login', 'register'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -37,8 +37,8 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="sticky" sx={{backgroundColor:'green'}} enableColorOnDark  color="primary">
-      <Container maxWidth="xl" sx={{backgroundColor:'green'}}>
+    <AppBar position="sticky" sx={{backgroundColor:'#FF2E31'}} enableColorOnDark>
+      <Container maxWidth="xl" sx={{backgroundColor:'#FF2E31'}}>
         <Toolbar disableGutters>
           {/* <Typography
             variant="h6"
