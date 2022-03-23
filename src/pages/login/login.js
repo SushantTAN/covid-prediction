@@ -8,10 +8,11 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import { apiBaseURL } from '../../repository/repository';
 
 const Login = () => {
   const [password, setPassword] = useState('');
-  // const [username, setUsername] = useState('');
+  const [username, setUsername] = useState('');
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -19,7 +20,8 @@ const Login = () => {
   const [usernameError, setUsernameError] = useState(false);
 
   const handleChangeUsername = (e) => {
-    // setUsername(e.target.value);
+    console.log(e.target.value)
+    setUsername(e.target.value);
     setUsernameError(false);
   }
 
@@ -36,8 +38,24 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = () => {
-
+  const handleSubmit = async () => {
+    console.log("submit..", username, password)
+    const response = await fetch(apiBaseURL + 'accounts/api/login/',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          // Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        })
+      });
+      console.log(response)
+    //   const responseJson = await response.json();
+    // console.log(responseJson);
   }
 
   return (

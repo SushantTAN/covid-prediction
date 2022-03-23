@@ -17,7 +17,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import AdviceText from "../../components/AdviceText";
-// import AccuracyView from "../../modules/AccuracyView";
+import AccuracyView from "../../modules/AccuracyView";
 
 function Form() {
 
@@ -104,7 +104,7 @@ function Form() {
 
     // console.log("fev error", feverError)
 
-    if (feverError || bodyPainError || runnyNoseError || diffBreathError) { return 0; }
+    if (feverError || bodyPainError || runnyNoseError || diffBreathError || diffBreath === '') { return 0; }
 
     var yfever;
     var nfever;
@@ -344,7 +344,7 @@ function Form() {
           </DialogActions>
         </Dialog>
       </div>
-      {/* <AccuracyView /> */}
+      <AccuracyView />
     </div>
   );
 }

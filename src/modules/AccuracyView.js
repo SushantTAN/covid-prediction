@@ -5,12 +5,16 @@ import { calculate } from '../functions/functions';
 const AccuracyView = () => {
 
   useEffect(()=>{
-    calculations();
+    calculations(data.slice(1, Math.ceil(data.length * 2 / 3)), data.slice(Math.ceil(data.length * 2 / 3), data.length));
+
+    calculations(data.slice(Math.ceil(data.length * 1 / 3), data.length), data.slice(1, Math.ceil(data.length * 1 / 3)));
+
+    calculations([...data.slice(1, Math.ceil(data.length * 1 / 3)), ...data.slice(Math.ceil(data.length * 2 / 3), data.length)], data.slice(Math.ceil(data.length * 1 / 3), Math.ceil(data.length * 2 / 3)));
   }, []);
 
-  const calculations = async () => {
-    var testData = data.slice(Math.ceil(data.length * 2 / 3), data.length);
-    var trainningData = data.slice(1, Math.ceil(data.length * 2 / 3));
+  const calculations = async (trainningData, testData) => {
+    // var testData = data.slice(Math.ceil(data.length * 2 / 3), data.length);
+    // var trainningData = data.slice(1, Math.ceil(data.length * 2 / 3));
     // console.log("test t=data",testData.length);
 
     var probabilities= {};
@@ -49,7 +53,7 @@ const AccuracyView = () => {
           nbodyPain = probabilities.Pof_Bodypain.infectionNo.yes;
           break;
         case 0:
-          console.log('bodypain' )
+          // console.log('bodypain' )
           ybodyPain = probabilities.Pof_Bodypain.infectionYes.no;
           nbodyPain = probabilities.Pof_Bodypain.infectionNo.no;
           break;
@@ -101,7 +105,7 @@ const AccuracyView = () => {
         * nrunnyNose
         * ndiffBreath;
   
-      console.log("final", yes, no);
+      // console.log("final", yes, no);
 
       var predictedInfection;
       if(yes > no) { predictedInfection = 1; } else { predictedInfection = 0; }
@@ -109,7 +113,7 @@ const AccuracyView = () => {
       if( predictedInfection === el.infectionProb) { totalCorrect += 1 }
     })
 
-    console.log("total correct", totalCorrect)
+    // console.log("total correct", totalCorrect)
 
     var accuracy = totalCorrect / (testData.length);
 
