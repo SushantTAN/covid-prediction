@@ -19,6 +19,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import AdviceText from "../../components/AdviceText";
 import AccuracyView from "../../modules/AccuracyView";
 
+// import Typography from '@mui/material/Typography';
+// import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+
 function Form() {
 
   // const [items, setItems] = useState([]);
@@ -236,6 +239,23 @@ function Form() {
     setDiffBreath(e.target.value);
   }
 
+  // return (
+  //   <div className="flex_container">
+  //     <div className="column center">
+  //       <img src="https://www.mykhaana.in/assets/img/login.png" alt="lock" className="lockImage" />
+  //       <Typography variant="h4" gutterBottom component="div" sx={{ margin: '20px 0px' }}>
+  //         Login to continue
+  //       </Typography>
+
+  //       <a href='/login'>
+  //       <Typography variant="h5" sx={{ color: "blue", }} className="link" gutterBottom component="div">
+  //         Go to Login <ArrowRightAltIcon />
+  //       </Typography>
+  //       </a>
+  //     </div>
+  //   </div>
+  // );
+
   return (
     <div className="flex_container">
       <div className="container">
@@ -252,7 +272,7 @@ function Form() {
             error={feverError}
             // helperText="Required"
             id="fever"
-            label="Fever (Farenheight)"
+            label="Fever (Fahrenheit)"
             placeholder="eg: 98.6"
             inputProps={{ inputMode: 'numeric' }}
             variant="outlined"

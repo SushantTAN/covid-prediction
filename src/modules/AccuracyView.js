@@ -7,9 +7,9 @@ const AccuracyView = () => {
   useEffect(()=>{
     calculations(data.slice(1, Math.ceil(data.length * 2 / 3)), data.slice(Math.ceil(data.length * 2 / 3), data.length));
 
-    calculations(data.slice(Math.ceil(data.length * 1 / 3), data.length), data.slice(1, Math.ceil(data.length * 1 / 3)));
+    // calculations(data.slice(Math.ceil(data.length * 1 / 3), data.length), data.slice(1, Math.ceil(data.length * 1 / 3)));
 
-    calculations([...data.slice(1, Math.ceil(data.length * 1 / 3)), ...data.slice(Math.ceil(data.length * 2 / 3), data.length)], data.slice(Math.ceil(data.length * 1 / 3), Math.ceil(data.length * 2 / 3)));
+    // calculations([...data.slice(1, Math.ceil(data.length * 1 / 3)), ...data.slice(Math.ceil(data.length * 2 / 3), data.length)], data.slice(Math.ceil(data.length * 1 / 3), Math.ceil(data.length * 2 / 3)));
   }, []);
 
   const calculations = async (trainningData, testData) => {
@@ -18,6 +18,8 @@ const AccuracyView = () => {
     // console.log("test t=data",testData.length);
 
     var probabilities= {};
+
+    var test = [];
 
     probabilities = await calculate(trainningData);
 
@@ -31,6 +33,10 @@ const AccuracyView = () => {
     var ndiffBreath;
     
     var totalCorrect = 0;
+
+    var truepositive = 0;
+    var falsepositive = 0;
+    var falsenegative = 0;
 
     testData.forEach(el => {
       switch (el.feverClass) {
@@ -111,6 +117,20 @@ const AccuracyView = () => {
       if(yes > no) { predictedInfection = 1; } else { predictedInfection = 0; }
 
       if( predictedInfection === el.infectionProb) { totalCorrect += 1 }
+
+      if(predictedInfection === 1 && el.infectionProb === 1) { truepositive += 1; }
+      if(predictedInfection === 1 && el.infectionProb === 0) { falsepositive += 1; }
+      if(predictedInfection === 0 && el.infectionProb === 1) { falsenegative += 1; }
+
+      // test.push({
+      //   "fever": el.fever,
+      //   "feverClass": el.feverClass,
+      //   "bodyPain": el.bodyPain,
+      //   "age": el.age,
+      //   "runnyNose": el.runnyNose,
+      //   "diffBreath": el.diffBreath,
+      //   "infectionProb": predictedInfection
+      // })
     })
 
     // console.log("total correct", totalCorrect)
@@ -118,6 +138,12 @@ const AccuracyView = () => {
     var accuracy = totalCorrect / (testData.length);
 
     console.log("accuracy",accuracy)
+
+    var fmeasure = truepositive / ( truepositive + 0.5 * (falsepositive + falsenegative) )
+
+    console.log("femeasure", fmeasure)
+
+    // console.log("test...", test);
   }
 
   return(

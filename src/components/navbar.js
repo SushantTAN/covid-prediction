@@ -12,9 +12,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import Typography from '@mui/material/Typography';
 
-const pages = ['Home', 'Predictor', 'login', 'register'];
-const routes = ['/', '/form', '/login', '/register'];
-const settings = ['Home', 'Predictor', 'login', 'register'];
+const pages = ['Home', 'Predictor', 'login', 'register', 'Profile'];
+const routes = ['/', '/form', '/login', '/register', '/profile'];
+const settings = ['Home', 'Predictor', 'login', 'register', 'Profile'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

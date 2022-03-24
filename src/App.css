@@ -2,6 +2,7 @@
   width: 100%; 
   display:flex; 
   justify-content: center;
+  align-items: center;
   margin: 20px 0px;
 }
 
@@ -14,9 +15,38 @@
   /* width: 40%; */
 }
 
+.tableContainer{
+  width: 70%;
+}
+
+.column{
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.center{
+  align-items: center;
+  justify-content: center;
+}
+
+.lockImage{
+  width: 70vw;
+  height: auto;
+}
+
+.link:hover{
+  cursor: pointer;
+}
+
 @media screen and (min-width: 768px){
   .container {
     margin: 0px;
     width: 50%;
+  }
+  .lockImage{
+    width: 20vw;
   }
 }
