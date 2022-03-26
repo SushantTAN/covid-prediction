@@ -24099,7 +24099,7 @@ export const data = [
         "age": 56,
         "runnyNose": 0,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 98.13346595,
@@ -24108,7 +24108,7 @@ export const data = [
         "age": 77,
         "runnyNose": 0,
         "diffBreath": -1,
-        "infectionProb": 1
+        "infectionProb": 0
     },
     {
         "fever": 98.49897878,
@@ -24117,7 +24117,7 @@ export const data = [
         "age": 57,
         "runnyNose": 0,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 98.73218582,
@@ -24126,7 +24126,7 @@ export const data = [
         "age": 76,
         "runnyNose": 1,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 99.66920153,
@@ -24135,7 +24135,7 @@ export const data = [
         "age": 43,
         "runnyNose": 0,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 100.4773436,
@@ -24144,7 +24144,7 @@ export const data = [
         "age": 88,
         "runnyNose": 0,
         "diffBreath": 1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 99.75179087,
@@ -24153,7 +24153,7 @@ export const data = [
         "age": 64,
         "runnyNose": 1,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 101.5340479,
@@ -24162,7 +24162,7 @@ export const data = [
         "age": 48,
         "runnyNose": 0,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 101.9689842,
@@ -24171,7 +24171,7 @@ export const data = [
         "age": 21,
         "runnyNose": 0,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 98.34727836,
@@ -24180,7 +24180,7 @@ export const data = [
         "age": 90,
         "runnyNose": 1,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 98.8777327,
@@ -24189,7 +24189,7 @@ export const data = [
         "age": 24,
         "runnyNose": 1,
         "diffBreath": 1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 99.75315009,
@@ -24198,7 +24198,7 @@ export const data = [
         "age": 1,
         "runnyNose": 1,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 100.4309448,
@@ -24207,7 +24207,7 @@ export const data = [
         "age": 77,
         "runnyNose": 0,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 98.44812196,
@@ -24216,7 +24216,7 @@ export const data = [
         "age": 9,
         "runnyNose": 0,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 100.0508403,
@@ -24225,7 +24225,7 @@ export const data = [
         "age": 2,
         "runnyNose": 1,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 98.74133648,
@@ -24234,7 +24234,7 @@ export const data = [
         "age": 63,
         "runnyNose": 1,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 99.71748856,
@@ -24243,7 +24243,7 @@ export const data = [
         "age": 58,
         "runnyNose": 1,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 99.61818293,
@@ -24252,7 +24252,7 @@ export const data = [
         "age": 19,
         "runnyNose": 1,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 101.9406811,
@@ -24261,7 +24261,7 @@ export const data = [
         "age": 53,
         "runnyNose": 0,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 100.9697969,
@@ -24270,7 +24270,7 @@ export const data = [
         "age": 71,
         "runnyNose": 0,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 101.8974595,
@@ -24279,7 +24279,7 @@ export const data = [
         "age": 33,
         "runnyNose": 1,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 99.67101007,
@@ -24288,7 +24288,7 @@ export const data = [
         "age": 93,
         "runnyNose": 1,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 98.17233281,
@@ -24297,7 +24297,7 @@ export const data = [
         "age": 6,
         "runnyNose": 1,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 100.0370316,
@@ -24306,7 +24306,7 @@ export const data = [
         "age": 55,
         "runnyNose": 1,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 101.491256,
@@ -24315,7 +24315,7 @@ export const data = [
         "age": 89,
         "runnyNose": 1,
         "diffBreath": 0,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 101.6101663,
@@ -24324,7 +24324,7 @@ export const data = [
         "age": 32,
         "runnyNose": 0,
         "diffBreath": -1,
-        "infectionProb": 0
+        "infectionProb": 1
     },
     {
         "fever": 100.1763875,

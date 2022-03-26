@@ -19,7 +19,7 @@ const AccuracyView = () => {
 
     var probabilities= {};
 
-    var test = [];
+    // var test = [];
 
     probabilities = await calculate(trainningData);
 
@@ -32,7 +32,7 @@ const AccuracyView = () => {
     var ydiffBreath;
     var ndiffBreath;
     
-    var totalCorrect = 0;
+    var totalCorrect = 0; //True Positive + True Negative
 
     var truepositive = 0;
     var falsepositive = 0;
