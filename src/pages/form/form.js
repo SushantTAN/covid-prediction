@@ -18,6 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import AdviceText from "../../components/AdviceText";
 import AccuracyView from "../../modules/AccuracyView";
+import { apiBaseURL } from "../../repository/repository";
 
 // import Typography from '@mui/material/Typography';
 // import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
@@ -239,6 +240,31 @@ function Form() {
     setDiffBreath(e.target.value);
   }
 
+  const handleAgree = async () => {
+    
+
+    const response = await fetch(apiBaseURL + 'accounts/api//',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          // Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+          fever,
+          bodyPain,
+          runnyNose,
+          diffBreath,
+          infectionClass,
+          user: "user",
+        })
+      });
+    console.log(response)
+
+    setDialogOpen(false);
+  }
+
   // return (
   //   <div className="flex_container">
   //     <div className="column center">
@@ -358,7 +384,7 @@ function Form() {
           }
           <DialogActions sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
             <Button onClick={() => { setDialogOpen(false) }} sx={{ color: 'white' }}>Disagree</Button>
-            <Button onClick={() => { setDialogOpen(false) }} sx={{ color: 'white' }} autoFocus>
+            <Button onClick={handleAgree} sx={{ color: 'white' }} autoFocus>
               Agree
             </Button>
           </DialogActions>

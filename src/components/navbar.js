@@ -12,13 +12,25 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import Typography from '@mui/material/Typography';
 
-const pages = ['Home', 'Predictor', 'login', 'register', 'Profile'];
-const routes = ['/', '/form', '/login', '/register', '/profile'];
-const settings = ['Home', 'Predictor', 'login', 'register', 'Profile'];
-
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const [pages, setPages] = React.useState(['Home', 'Predictor', 'login', 'register', 'Profile']);
+  const [routes, setRoutes] = React.useState(['/', '/form', '/login', '/register', '/profile']);
+  const [settings, setSettings] = React.useState(['Home', 'Predictor', 'login', 'register', 'Profile']);
+
+  React.useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setPages(['Home', 'Predictor', 'Profile']);
+      setRoutes(['/', '/form', '/profile']);
+      setSettings(['Home', 'Predictor', 'Profile']);
+    } else {
+      setPages(['Home', 'Predictor', 'login', 'register']);
+      setRoutes(['/', '/form', '/login', '/register']);
+      setSettings(['Home', 'Predictor', 'login', 'register']);
+    }
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,8 +49,8 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="sticky" sx={{backgroundColor:'#FF2E31'}} enableColorOnDark>
-      <Container maxWidth="xl" sx={{backgroundColor:'#FF2E31'}}>
+    <AppBar position="sticky" sx={{ backgroundColor: '#FF2E31' }} enableColorOnDark>
+      <Container maxWidth="xl" sx={{ backgroundColor: '#FF2E31' }}>
         <Toolbar disableGutters>
           {/* <Typography
             variant="h6"
@@ -49,10 +61,10 @@ const ResponsiveAppBar = () => {
             ASCOL
           </Typography> */}
 
-          <img src="http://amritcampus.edu.np/wp-content/uploads/2017/06/amrit-campus-logo.png" alt="Ascol logo"/>
+          <img src="http://amritcampus.edu.np/wp-content/uploads/2017/06/amrit-campus-logo.png" alt="Ascol logo" />
 
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-              {/* <IconButton
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            {/* <IconButton
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -62,35 +74,37 @@ const ResponsiveAppBar = () => {
               >
                 <MenuIcon />
               </IconButton> */}
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: 'block', md: 'none' },
-                  textAlign: 'right',
-                }}
-              >
-                {pages.map((page, index) => (
-                  // <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  // <span style={{ color: 'white'}}>
-                  <a key={index} className="nav-link"  href={routes[index]}>{page}</a>
-                  // </span>
-                  // </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-            {/* <Typography
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+                textAlign: 'right',
+              }}
+            >
+              {pages.map((page, index) => (
+                // <MenuItem key={page} onClick={handleCloseNavMenu}>
+                // <span style={{ color: 'white'}}>
+                <a key={index} className="nav-link" href={routes[index]}>{page}</a>
+                // </span>
+                // </MenuItem>
+              ))}
+
+              <a className="nav-link" href={'/login'} onClick={()=> { localStorage.removeItem('token') }}>Logout</a>
+            </Menu>
+          </Box>
+          {/* <Typography
               variant="h6"
               noWrap
               component="div"
@@ -98,20 +112,20 @@ const ResponsiveAppBar = () => {
             >
               LOGO
             </Typography> */}
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page, index) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  <a className="nav-link" style={{ color: 'white' }} href={routes[index]}>{page}</a>
-                </Button>
-              ))}
-            </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page, index) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                <a className="nav-link" style={{ color: 'white' }} href={routes[index]}>{page}</a>
+              </Button>
+            ))}
+          </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -145,10 +159,10 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
-            </Box>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
-      );
+  );
 };
-      export default ResponsiveAppBar;
+export default ResponsiveAppBar;

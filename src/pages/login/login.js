@@ -54,8 +54,8 @@ const Login = () => {
         })
       });
       console.log(response)
-    //   const responseJson = await response.json();
-    // console.log(responseJson);
+      const responseJson = await response.json();
+    console.log(responseJson);
   }
 
   return (
