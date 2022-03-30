@@ -9,8 +9,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { apiBaseURL } from '../../repository/repository';
+import {Navigate} from 'react-router-dom';
 
-const Login = () => {
+const Login = (props) => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
 
@@ -19,8 +20,10 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
 
+  const [refresh, setRefresh] = useState(1);
+
   const handleChangeUsername = (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     setUsername(e.target.value);
     setUsernameError(false);
   }
@@ -39,23 +42,57 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("submit..", username, password)
-    const response = await fetch(apiBaseURL + 'accounts/api/login/',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          // Authorization: 'Bearer ' + token,
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        })
-      });
-      console.log(response)
-      const responseJson = await response.json();
-    console.log(responseJson);
+    // console.log("submit..", username, password)
+
+    setPasswordError(false);
+    setUsernameError(false);
+
+    if (username === '') { setUsernameError(true) }
+    if (password === '') { setPasswordError(true) }
+
+    if (usernameError || passwordError) { return 0; }
+
+    try {
+      const response = await fetch(apiBaseURL + 'api/token/',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            // Authorization: 'Bearer ' + token,
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          })
+        });
+      // console.log(response)
+      if (response.status === 200) {
+        const responseJson = await response.json();
+        // console.log(responseJson);
+
+        localStorage.setItem('token', responseJson.access);
+        localStorage.setItem('user_id', responseJson.user_id);
+
+        setRefresh(refresh + 1);
+
+        props.handleRefresh();
+
+        // return <Navigate to="/form" replace/>
+      }
+      else if (response.status === 401) {
+        const responseJson = await response.json();
+        alert(`Error! ${responseJson.detail}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if(localStorage.getItem("token")){
+    return (
+      <Navigate to="/form" replace />
+    )
   }
 
   return (

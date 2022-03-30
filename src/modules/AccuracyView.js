@@ -160,8 +160,8 @@ const AccuracyView = () => {
 
   return (
     <div className="openAccuracy" onClick={() => { setOpen(false) }}>
-      <p><h4>Accuracy:</h4>  {Math.round((accuracy + Number.EPSILON) * 100) / 100}%</p>
-      <p><h4>F-measure:</h4>  {Math.round((fmeasure + Number.EPSILON) * 100) / 100}%</p>
+      <div><h4>Accuracy:</h4>  {Math.round((accuracy + Number.EPSILON) * 100) / 100}%</div>
+      <div><h4>F-measure:</h4>  {Math.round((fmeasure + Number.EPSILON) * 100) / 100}%</div>
     </div>
   );
 }

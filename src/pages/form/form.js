@@ -20,8 +20,8 @@ import AdviceText from "../../components/AdviceText";
 import AccuracyView from "../../modules/AccuracyView";
 import { apiBaseURL } from "../../repository/repository";
 
-// import Typography from '@mui/material/Typography';
-// import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import Typography from '@mui/material/Typography';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 function Form() {
 
@@ -31,6 +31,7 @@ function Form() {
 
   //Input values
   const [fever, setFever] = useState('');
+  const [feverInt, setFeverInt] = useState('');
   const [bodyPain, setBodyPain] = useState('');
   const [runnyNose, setRunnyNose] = useState('');
   const [diffBreath, setDiffBreath] = useState('');
@@ -101,14 +102,14 @@ function Form() {
     setRunnyNoseError(false);
     setDiffBreathError(false);
 
-    if (fever === '') { setFeverError(true); }
+    if (fever === '' || Number(feverInt) > 108.14 || Number(feverInt) < 75 ) { setFeverError(true); }
     if (bodyPain === '') { setBodyPainError(true); }
     if (runnyNose === '') { setRunnyNoseError(true); }
     if (diffBreath === '') { setDiffBreathError(true); }
 
     // console.log("fev error", feverError)
 
-    if (feverError || bodyPainError || runnyNoseError || diffBreathError || diffBreath === '') { return 0; }
+    if (feverError || bodyPainError || runnyNoseError || diffBreathError || diffBreath === ''|| Number(feverInt) > 108.14 || Number(feverInt) < 75) { return 0; }
 
     var yfever;
     var nfever;
@@ -135,11 +136,11 @@ function Form() {
     }
 
     switch (bodyPain) {
-      case 'yes':
+      case 'Yes':
         ybodyPain = probabilities.Pof_Bodypain.infectionYes.yes;
         nbodyPain = probabilities.Pof_Bodypain.infectionNo.yes;
         break;
-      case 'no':
+      case 'No':
         ybodyPain = probabilities.Pof_Bodypain.infectionYes.no;
         nbodyPain = probabilities.Pof_Bodypain.infectionNo.no;
         break;
@@ -148,11 +149,11 @@ function Form() {
     }
 
     switch (runnyNose) {
-      case 'yes':
+      case 'Yes':
         yrunnyNose = probabilities.Pof_Runnynose.infectionYes.yes;
         nrunnyNose = probabilities.Pof_Runnynose.infectionNo.yes;
         break;
-      case 'no':
+      case 'No':
         yrunnyNose = probabilities.Pof_Runnynose.infectionYes.no;
         nrunnyNose = probabilities.Pof_Runnynose.infectionNo.no;
         break;
@@ -161,15 +162,15 @@ function Form() {
     }
 
     switch (diffBreath) {
-      case 'difficult':
+      case 'Difficult':
         ydiffBreath = probabilities.Pof_Difficultybreathing.infectionYes.difficult;
         ndiffBreath = probabilities.Pof_Difficultybreathing.infectionNo.difficult;
         break;
-      case 'mild':
+      case 'Mild':
         ydiffBreath = probabilities.Pof_Difficultybreathing.infectionYes.mild;
         ndiffBreath = probabilities.Pof_Difficultybreathing.infectionNo.mild;
         break;
-      case 'none':
+      case 'None':
         ydiffBreath = probabilities.Pof_Difficultybreathing.infectionYes.none;
         ndiffBreath = probabilities.Pof_Difficultybreathing.infectionNo.none;
         break;
@@ -191,7 +192,7 @@ function Form() {
 
     // console.log("final", yes, no);
 
-    if (yes > no) { setInfectionClass('yes'); } else { setInfectionClass('no'); }
+    if (yes > no) { setInfectionClass('Yes'); } else { setInfectionClass('No'); }
 
     if (fever === '' || bodyPain === '' || runnyNose === '' || fever === '') { } else { setDialogOpen(true); }
 
@@ -220,6 +221,8 @@ function Form() {
     }
     else
       setFever('');
+
+      setFeverInt(e.target.value);
   }
 
   const handleChangeBodyPain = (e) => {
@@ -241,46 +244,60 @@ function Form() {
   }
 
   const handleAgree = async () => {
-    
 
-    const response = await fetch(apiBaseURL + 'accounts/api//',
+    // console.log("aaaaa", localStorage.getItem('token'));
+    try{const response = await fetch(apiBaseURL + 'predictor/api/create/',
       {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          // Authorization: 'Bearer ' + token,
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
         },
         body: JSON.stringify({
-          fever,
-          bodyPain,
-          runnyNose,
-          diffBreath,
-          infectionClass,
-          user: "user",
+          // fever,
+          // bodyPain,
+          // runnyNose,
+          // diffBreath,
+          // infectionClass,
+          // user: "user",
+
+          "fever": feverInt,
+          "body_pain": bodyPain,
+          "runny_nose": runnyNose,
+          "infected": infectionClass,
+          "difficulty_breathing": diffBreath,
         })
       });
     console.log(response)
+    if (response.status === 404) {
+      const responseJson = await response.json();
+      alert(`Error! ${responseJson.detail}`);
+    }
+  }catch(error){
+    console.log("error", error);
+  }
 
     setDialogOpen(false);
   }
 
-  // return (
-  //   <div className="flex_container">
-  //     <div className="column center">
-  //       <img src="https://www.mykhaana.in/assets/img/login.png" alt="lock" className="lockImage" />
-  //       <Typography variant="h4" gutterBottom component="div" sx={{ margin: '20px 0px' }}>
-  //         Login to continue
-  //       </Typography>
+  if([null, undefined].includes(localStorage.getItem('token')))
+  return (
+    <div className="flex_container">
+      <div className="column center">
+        <img src="https://www.mykhaana.in/assets/img/login.png" alt="lock" className="lockImage" />
+        <Typography variant="h4" gutterBottom component="div" sx={{ margin: '20px 0px' }}>
+          Login to continue
+        </Typography>
 
-  //       <a href='/login'>
-  //       <Typography variant="h5" sx={{ color: "blue", }} className="link" gutterBottom component="div">
-  //         Go to Login <ArrowRightAltIcon />
-  //       </Typography>
-  //       </a>
-  //     </div>
-  //   </div>
-  // );
+        <a href='/login'>
+        <Typography variant="h5" sx={{ color: "blue", }} className="link" gutterBottom component="div">
+          Go to Login <ArrowRightAltIcon />
+        </Typography>
+        </a>
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex_container">
@@ -316,8 +333,8 @@ function Form() {
             label="Body Pain"
             onChange={handleChangeBodyPain}
           >
-            <MenuItem value={'yes'}>Yes</MenuItem>
-            <MenuItem value={'no'}>No</MenuItem>
+            <MenuItem value={'Yes'}>Yes</MenuItem>
+            <MenuItem value={'No'}>No</MenuItem>
           </Select>
 
         </MarginLayout>
@@ -331,8 +348,8 @@ function Form() {
             label="Runny Nose"
             onChange={handleChangeRunnyNose}
           >
-            <MenuItem value={'yes'}>Yes</MenuItem>
-            <MenuItem value={'no'}>No</MenuItem>
+            <MenuItem value={'Yes'}>Yes</MenuItem>
+            <MenuItem value={'No'}>No</MenuItem>
           </Select>
         </MarginLayout>
 
@@ -345,9 +362,9 @@ function Form() {
             label="Difficulty Breathing"
             onChange={handleChangeDiffBreath}
           >
-            <MenuItem value={'none'}>None</MenuItem>
-            <MenuItem value={'mild'}>Mild</MenuItem>
-            <MenuItem value={'difficult'}>Difficult</MenuItem>
+            <MenuItem value={'None'}>None</MenuItem>
+            <MenuItem value={'Mild'}>Mild</MenuItem>
+            <MenuItem value={'Difficult'}>Difficult</MenuItem>
           </Select>
         </MarginLayout>
 
@@ -362,10 +379,10 @@ function Form() {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title" sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
-            {infectionClass === 'yes' ? 'You may have covid' : 'You have a low risk of infection'}
+          <DialogTitle id="alert-dialog-title" sx={{ backgroundColor: infectionClass === 'Yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
+            {infectionClass === 'Yes' ? 'You may have covid' : 'You have a low risk of infection'}
           </DialogTitle>
-          {infectionClass === 'yes' ? <DialogContent sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
+          {infectionClass === 'Yes' ? <DialogContent sx={{ backgroundColor: infectionClass === 'Yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
             <AdviceText message="Consult a doctor" />
             <AdviceText message="Keep a distance of at least 1 metre from others" />
             <AdviceText message="Open windows when possible" />
@@ -374,7 +391,7 @@ function Form() {
             <AdviceText message="Cover coughs and sneezes" />
             <AdviceText message="Take Care" />
           </DialogContent>
-            : <DialogContent sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
+            : <DialogContent sx={{ backgroundColor: infectionClass === 'Yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
               <AdviceText message="But still take precautions" />
               <AdviceText message="Wear a mask" />
               <AdviceText message="Clean hands" />
@@ -382,7 +399,7 @@ function Form() {
               <AdviceText message="Stay safe" />
             </DialogContent>
           }
-          <DialogActions sx={{ backgroundColor: infectionClass === 'yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
+          <DialogActions sx={{ backgroundColor: infectionClass === 'Yes' ? '#FF4E86' : '#00B305', color: 'white' }}>
             <Button onClick={() => { setDialogOpen(false) }} sx={{ color: 'white' }}>Disagree</Button>
             <Button onClick={handleAgree} sx={{ color: 'white' }} autoFocus>
               Agree

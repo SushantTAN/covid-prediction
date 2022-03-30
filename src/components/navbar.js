@@ -12,13 +12,15 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 // import Typography from '@mui/material/Typography';
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const [pages, setPages] = React.useState(['Home', 'Predictor', 'login', 'register', 'Profile']);
   const [routes, setRoutes] = React.useState(['/', '/form', '/login', '/register', '/profile']);
   const [settings, setSettings] = React.useState(['Home', 'Predictor', 'login', 'register', 'Profile']);
+
+  const [refresh, setRefresh]= React.useState(1);
 
   React.useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -30,7 +32,11 @@ const ResponsiveAppBar = () => {
       setRoutes(['/', '/form', '/login', '/register']);
       setSettings(['Home', 'Predictor', 'login', 'register']);
     }
-  }, []);
+  }, [props.refreshInt]);
+
+  React.useEffect(()=>{
+    setRefresh(refresh+1);
+  }, [props.refreshInt, refresh]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -40,7 +46,7 @@ const ResponsiveAppBar = () => {
   // };
 
   const handleCloseNavMenu = (e) => {
-    console.log(e)
+    // console.log(e)
     setAnchorElNav(null);
   };
 
@@ -101,7 +107,9 @@ const ResponsiveAppBar = () => {
                 // </MenuItem>
               ))}
 
-              <a className="nav-link" href={'/login'} onClick={()=> { localStorage.removeItem('token') }}>Logout</a>
+              {/* <div onClick={() => { localStorage.removeItem('token') }}></div> */}
+
+              { localStorage.getItem('token') && <a className="nav-link" href={'/login'} onClick={() => { localStorage.removeItem('token') }}>Logout</a>}
             </Menu>
           </Box>
           {/* <Typography
@@ -112,7 +120,7 @@ const ResponsiveAppBar = () => {
             >
               LOGO
             </Typography> */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', alignItems:"center" }}>
             {pages.map((page, index) => (
               <Button
                 key={page}
@@ -122,6 +130,9 @@ const ResponsiveAppBar = () => {
                 <a className="nav-link" style={{ color: 'white' }} href={routes[index]}>{page}</a>
               </Button>
             ))}
+            <div className="nav-container">
+            { localStorage.getItem('token') && <a className="nav-link logout" href={'/login'} onClick={() => { localStorage.removeItem('token') }}>LOGOUT</a>}
+            </div>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -158,6 +169,8 @@ const ResponsiveAppBar = () => {
                   <p>{setting}</p>
                 </MenuItem>
               ))}
+
+              <a className="nav-link" href={'/login'} onClick={() => { localStorage.removeItem('token') }}>Logout</a>
             </Menu>
           </Box>
         </Toolbar>

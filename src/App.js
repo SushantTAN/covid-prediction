@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,14 +12,19 @@ import Profile from "./pages/profile/profile";
 import Register from "./pages/register/register";
 
 export default function App() {
+  const [refreshInt, setRefreshInt] = useState(1);
+
+  const handleRefresh = () => {
+    setRefreshInt(refreshInt +1);
+  }
   return (
     <Router>
-      <ResponsiveAppBar />
+      <ResponsiveAppBar refreshInt={refreshInt}/>
       <Routes>
 
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home/>} />
           <Route path="/form" element= {<Form />} />
-          <Route path="/login" element= {<Login />} />
+          <Route path="/login" element= {<Login handleRefresh={handleRefresh}/>} />
           <Route path="/register" element= {<Register />} />
           <Route path="/profile" element= {<Profile />} />
 

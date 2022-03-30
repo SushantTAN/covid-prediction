@@ -23,13 +23,15 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState('');
-  const [gender, setGender] = useState('Male');
+  const [gender, setGender] = useState('');
 
   const [showPassword, setShowPassword] = useState(false);
 
   const [passwordError, setPasswordError] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  const [ageError, setAgeError] = useState(false);
+  const [genderError, setGenderError] = useState(false);
 
   const handleChangeUsername = (e) => {
     setUsername(e.target.value);
@@ -45,11 +47,13 @@ const Register = () => {
     // console.log(typeof(e.target.value))
     setAge(e.target.value);
     // setPasswordError(false);
+    setAgeError(false);
   }
   const handleChangeGender = (e) => {
     // console.log(typeof(e.target.value))
     setGender(e.target.value);
     // setPasswordError(false);
+    setGenderError(false);
   }
 
   const handleChangePassword = (e) => {
@@ -66,26 +70,63 @@ const Register = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("submit..", apiBaseURL)
-    const response = await fetch(apiBaseURL + 'accounts/api/create/',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          // Authorization: 'Bearer ' + token,
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-          email: email,
-          gender: gender,
-          age: age === '' ? null : age,
-        })
-      });
-    console.log(response);
+    // console.log("submit..", apiBaseURL)
+
+    setPasswordError(false);
+    setUsernameError(false);
+
+    if (username === '') { setUsernameError(true) }
+    if (password === '') { setPasswordError(true) }
+    if (email === '') { setEmailError(true) }
+    if (age === '') { setAgeError(true) }
+    if (gender === '') { setGenderError(true) }
+
+    if (usernameError || passwordError || emailError || ageError || genderError) { return 0; }
+
+    try {
+      const response = await fetch(apiBaseURL + 'accounts/api/create/',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            // Authorization: 'Bearer ' + token,
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            email: email,
+            gender: gender,
+            age: age === '' ? null : age,
+          })
+        });
+      // console.log(response);
+          
+      // console.log(responseJson);
+      if (response.status === 400) {
+        // console.log("in 400 if")
         const responseJson = await response.json();
-    console.log(responseJson);
+        // console.log(responseJson);
+        // var key = Object.keys(responseJson);
+        // var values = Object.values(responseJson);
+
+        var passwordMsg = responseJson.password;
+        var emailMsg = responseJson.email;
+
+        if(passwordMsg){
+          passwordMsg.map((item, index)=> {
+            return alert(`${item}`);
+          })
+        }
+        if(emailMsg){
+          emailMsg.map((item, index)=> {
+            return alert(`${item}`);
+          })
+        }
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   var ageMenu = [];
@@ -147,9 +188,9 @@ const Register = () => {
           />
         </MarginLayout>
 
-        <MarginLayout error={usernameError}>
+        <MarginLayout error={ageError}>
           <TextField
-            error={usernameError}
+            error={ageError}
             // helperText="Required"
             id="Age"
             label="Age"
@@ -160,7 +201,7 @@ const Register = () => {
           />
         </MarginLayout>
 
-        <MarginLayout>
+        <MarginLayout error={genderError}>
           <FormLabel id="gender">Gender</FormLabel>
           <RadioGroup
             aria-labelledby="gender"
