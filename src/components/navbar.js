@@ -20,7 +20,7 @@ const ResponsiveAppBar = (props) => {
   const [routes, setRoutes] = React.useState(['/', '/form', '/login', '/register', '/profile']);
   const [settings, setSettings] = React.useState(['Home', 'Predictor', 'login', 'register', 'Profile']);
 
-  const [refresh, setRefresh]= React.useState(1);
+  // const [refresh, setRefresh] = React.useState(1);
 
   React.useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -34,9 +34,9 @@ const ResponsiveAppBar = (props) => {
     }
   }, [props.refreshInt]);
 
-  React.useEffect(()=>{
-    setRefresh(refresh+1);
-  }, [props.refreshInt, refresh]);
+  // React.useEffect(()=>{
+  //   setRefresh(refresh+1);
+  // }, [props.refreshInt, refresh]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -109,7 +109,7 @@ const ResponsiveAppBar = (props) => {
 
               {/* <div onClick={() => { localStorage.removeItem('token') }}></div> */}
 
-              { localStorage.getItem('token') && <a className="nav-link" href={'/login'} onClick={() => { localStorage.removeItem('token') }}>Logout</a>}
+              {localStorage.getItem('token') && <a className="nav-link" href={'/login'} onClick={() => { localStorage.removeItem('token') }}>Logout</a>}
             </Menu>
           </Box>
           {/* <Typography
@@ -120,7 +120,7 @@ const ResponsiveAppBar = (props) => {
             >
               LOGO
             </Typography> */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', alignItems:"center" }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', alignItems: "center" }}>
             {pages.map((page, index) => (
               <Button
                 key={page}
@@ -131,7 +131,7 @@ const ResponsiveAppBar = (props) => {
               </Button>
             ))}
             <div className="nav-container">
-            { localStorage.getItem('token') && <a className="nav-link logout" href={'/login'} onClick={() => { localStorage.removeItem('token') }}>LOGOUT</a>}
+              {localStorage.getItem('token') && <a className="nav-link logout" href={'/login'} onClick={() => { localStorage.removeItem('token') }}>LOGOUT</a>}
             </div>
           </Box>
 
