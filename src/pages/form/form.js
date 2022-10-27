@@ -102,14 +102,14 @@ function Form() {
     setRunnyNoseError(false);
     setDiffBreathError(false);
 
-    if (fever === '' || Number(feverInt) > 108.14 || Number(feverInt) < 75 ) { setFeverError(true); }
+    if (fever === '' || Number(feverInt) > 108.14 || Number(feverInt) < 75) { setFeverError(true); }
     if (bodyPain === '') { setBodyPainError(true); }
     if (runnyNose === '') { setRunnyNoseError(true); }
     if (diffBreath === '') { setDiffBreathError(true); }
 
     // console.log("fev error", feverError)
 
-    if (feverError || bodyPainError || runnyNoseError || diffBreathError || diffBreath === ''|| Number(feverInt) > 108.14 || Number(feverInt) < 75) { return 0; }
+    if (feverError || bodyPainError || runnyNoseError || diffBreathError || diffBreath === '' || Number(feverInt) > 108.14 || Number(feverInt) < 75) { return 0; }
 
     var yfever;
     var nfever;
@@ -222,7 +222,7 @@ function Form() {
     else
       setFever('');
 
-      setFeverInt(e.target.value);
+    setFeverInt(e.target.value);
   }
 
   const handleChangeBodyPain = (e) => {
@@ -246,58 +246,59 @@ function Form() {
   const handleAgree = async () => {
 
     // console.log("aaaaa", localStorage.getItem('token'));
-    try{const response = await fetch(apiBaseURL + 'predictor/api/create/',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
-        },
-        body: JSON.stringify({
-          // fever,
-          // bodyPain,
-          // runnyNose,
-          // diffBreath,
-          // infectionClass,
-          // user: "user",
+    try {
+      const response = await fetch(apiBaseURL + 'api/entry/create/',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('token'),
+          },
+          body: JSON.stringify({
+            // fever,
+            // bodyPain,
+            // runnyNose,
+            // diffBreath,
+            // infectionClass,
+            // user: "user",
 
-          "fever": feverInt,
-          "body_pain": bodyPain,
-          "runny_nose": runnyNose,
-          "infected": infectionClass,
-          "difficulty_breathing": diffBreath,
-        })
-      });
-    console.log(response)
-    if (response.status === 404) {
-      const responseJson = await response.json();
-      alert(`Error! ${responseJson.detail}`);
+            "fever": feverInt,
+            "body_pain": bodyPain,
+            "runny_nose": runnyNose,
+            "infected": infectionClass,
+            "difficulty_breathing": diffBreath,
+          })
+        });
+      console.log(response)
+      if (response.status === 404) {
+        const responseJson = await response.json();
+        alert(`Error! ${responseJson.detail}`);
+      }
+    } catch (error) {
+      console.log("error", error);
     }
-  }catch(error){
-    console.log("error", error);
-  }
 
     setDialogOpen(false);
   }
 
-  if([null, undefined].includes(localStorage.getItem('token')))
-  return (
-    <div className="flex_container">
-      <div className="column center">
-        <img src="https://www.mykhaana.in/assets/img/login.png" alt="lock" className="lockImage" />
-        <Typography variant="h4" gutterBottom component="div" sx={{ margin: '20px 0px' }}>
-          Login to continue
-        </Typography>
+  if ([null, undefined].includes(localStorage.getItem('token')))
+    return (
+      <div className="flex_container">
+        <div className="column center">
+          <img src="https://www.mykhaana.in/assets/img/login.png" alt="lock" className="lockImage" />
+          <Typography variant="h4" gutterBottom component="div" sx={{ margin: '20px 0px' }}>
+            Login to continue
+          </Typography>
 
-        <a href='/login'>
-        <Typography variant="h5" sx={{ color: "blue", }} className="link" gutterBottom component="div">
-          Go to Login <ArrowRightAltIcon />
-        </Typography>
-        </a>
+          <a href='/login'>
+            <Typography variant="h5" sx={{ color: "blue", }} className="link" gutterBottom component="div">
+              Go to Login <ArrowRightAltIcon />
+            </Typography>
+          </a>
+        </div>
       </div>
-    </div>
-  );
+    );
 
   return (
     <div className="flex_container">

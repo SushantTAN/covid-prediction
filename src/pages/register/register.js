@@ -84,7 +84,7 @@ const Register = () => {
     if (usernameError || passwordError || emailError || ageError || genderError) { return 0; }
 
     try {
-      const response = await fetch(apiBaseURL + 'accounts/api/create/',
+      const response = await fetch(apiBaseURL + 'api/auth/register/',
         {
           method: 'POST',
           headers: {
@@ -93,7 +93,7 @@ const Register = () => {
             // Authorization: 'Bearer ' + token,
           },
           body: JSON.stringify({
-            username: username,
+            name: username,
             password: password,
             email: email,
             gender: gender,
@@ -101,31 +101,35 @@ const Register = () => {
           })
         });
       // console.log(response);
-          
+
       // console.log(responseJson);
+      if (response.status === 200) {
+        alert('New User Created');
+      }
       if (response.status === 400) {
-        // console.log("in 400 if")
+        // console.log("in 400 if", response)
         const responseJson = await response.json();
-        // console.log(responseJson);
+        console.log("resjson", responseJson);
         // var key = Object.keys(responseJson);
         // var values = Object.values(responseJson);
 
         var passwordMsg = responseJson.password;
         var emailMsg = responseJson.email;
 
-        if(passwordMsg){
-          passwordMsg.map((item, index)=> {
+        if (passwordMsg) {
+          passwordMsg.map((item, index) => {
             return alert(`${item}`);
           })
         }
-        if(emailMsg){
-          emailMsg.map((item, index)=> {
+        if (emailMsg) {
+          emailMsg.map((item, index) => {
             return alert(`${item}`);
           })
         }
       }
     } catch (error) {
       console.log("error", error);
+      alert(error)
     }
   }
 

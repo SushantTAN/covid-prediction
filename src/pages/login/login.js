@@ -9,7 +9,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { apiBaseURL } from '../../repository/repository';
-import {Navigate} from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const Login = (props) => {
   const [password, setPassword] = useState('');
@@ -53,7 +53,7 @@ const Login = (props) => {
     if (usernameError || passwordError) { return 0; }
 
     try {
-      const response = await fetch(apiBaseURL + 'api/token/',
+      const response = await fetch(apiBaseURL + 'api/auth/login/',
         {
           method: 'POST',
           headers: {
@@ -62,7 +62,7 @@ const Login = (props) => {
             // Authorization: 'Bearer ' + token,
           },
           body: JSON.stringify({
-            username: username,
+            email: username,
             password: password,
           })
         });
@@ -71,7 +71,7 @@ const Login = (props) => {
         const responseJson = await response.json();
         // console.log(responseJson);
 
-        localStorage.setItem('token', responseJson.access);
+        localStorage.setItem('token', responseJson.access_token);
         localStorage.setItem('user_id', responseJson.user_id);
 
         setRefresh(refresh + 1);
@@ -80,7 +80,7 @@ const Login = (props) => {
 
         // return <Navigate to="/form" replace/>
       }
-      else if (response.status === 401) {
+      else if (response.status === 400) {
         const responseJson = await response.json();
         alert(`Error! ${responseJson.detail}`);
       }
@@ -89,7 +89,7 @@ const Login = (props) => {
     }
   }
 
-  if(localStorage.getItem("token")){
+  if (localStorage.getItem("token")) {
     return (
       <Navigate to="/form" replace />
     )
@@ -102,9 +102,9 @@ const Login = (props) => {
           <TextField
             error={usernameError}
             // helperText="Required"
-            id="username"
-            label="Username"
-            placeholder="Your name here"
+            id="email"
+            label="Email"
+            placeholder="Your email here"
             // inputProps={{ inputMode: 'numeric' }}
             variant="outlined"
             onChange={handleChangeUsername}

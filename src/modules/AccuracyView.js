@@ -41,6 +41,7 @@ const AccuracyView = () => {
     var truepositive = 0;
     var falsepositive = 0;
     var falsenegative = 0;
+    var truenegative = 0;
 
     testData.forEach(el => {
       switch (el.feverClass) {
@@ -125,6 +126,7 @@ const AccuracyView = () => {
       if (predictedInfection === 1 && el.infectionProb === 1) { truepositive += 1; }
       if (predictedInfection === 1 && el.infectionProb === 0) { falsepositive += 1; }
       if (predictedInfection === 0 && el.infectionProb === 1) { falsenegative += 1; }
+      if (predictedInfection === 0 && el.infectionProb === 0) { truenegative += 1; }
 
       // test.push({
       //   "fever": el.fever,
@@ -149,7 +151,7 @@ const AccuracyView = () => {
     console.log("femeasure", fmeasure)
     setFmeasure(fmeasure * 100);
 
-    // console.log("test...", test);
+    console.log("test...", truepositive, truenegative, falsepositive, falsenegative);
   }
 
   if (!open)

@@ -49,81 +49,81 @@ const Profile = () => {
   // const [infectionClass, setInfectionClass] = useState('');
 
   const fetchData = async () => {
-    const response = await fetch(apiBaseURL + 'accounts/api/detail/' + localStorage.getItem("user_id") + '/',
+    const response = await fetch(apiBaseURL + 'api/auth/profile/',
       {
         method: 'GET',
         headers: {
           Accept: 'application/json',
           // 'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          Authorization: localStorage.getItem('token'),
         },
       });
 
-      if (response.status === 200) {
-        const responseJson = await response.json();
-        // console.log(responseJson);
+    if (response.status === 200) {
+      const responseJson = await response.json();
+      // console.log(responseJson);
 
-        setUsername(responseJson.username);
-        setEmail(responseJson.email);
-        setAge(responseJson.age);
-        setGender(responseJson.gender)
+      setUsername(responseJson.name);
+      setEmail(responseJson.email);
+      setAge(responseJson.age);
+      setGender(responseJson.gender)
 
-        setRows(responseJson.prectior_user);
-      }
+      setRows(responseJson.entries);
+    }
   }
- 
-  useEffect(()=> {
+
+  useEffect(() => {
     // console.log("aaaaa",apiBaseURL + 'accounts/api/detail/' + localStorage.getItem("user_id"))
     setRows([])
     fetchData();
-    
+
   }, [])
 
   return (
     <div className="flex_container">
       <div className='column'>
-      <div className=''>
-      <Typography variant="h4" gutterBottom component="div">
-        {username}
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom component="div">
-        {age}, {gender}
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom component="div">
-      <EmailIcon /> {email}
-      </Typography>
-        {/* <p>User: Sushant</p>
+        <div className=''>
+          <Typography variant="h4" gutterBottom component="div">
+            {username}
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom component="div">
+            {age}, {gender}
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom component="div">
+            <EmailIcon /> {email}
+          </Typography>
+          {/* <p>User: Sushant</p>
         <p>Age: 23</p>
         <p>Email: punk1susant@gmail.com</p>
         <p>Gender: Male</p> */}
-      </div>
+        </div>
 
-      <TableContainer component={Paper} sx={{ margin: '24px 0px' }}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead >
-            <TableRow>
-              <StyledTableCell>Fever</StyledTableCell>
-              <StyledTableCell align="right">Body Pain</StyledTableCell>
-              <StyledTableCell align="right">Runny Nose</StyledTableCell>
-              <StyledTableCell align="right">Difficulty Breathing</StyledTableCell>
-              <StyledTableCell align="right">Infection Prediction</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row, index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell component="th" scope="row">
-                  {row.fever}&deg;F
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.body_pain}</StyledTableCell>
-                <StyledTableCell align="right">{row.runny_nose}</StyledTableCell>
-                <StyledTableCell align="right">{row.difficulty_breathing}</StyledTableCell>
-                <StyledTableCell align="right">{row.infected}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        <TableContainer component={Paper} sx={{ margin: '24px 0px' }}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead >
+              <TableRow>
+                <StyledTableCell>Fever</StyledTableCell>
+                <StyledTableCell align="right">Body Pain</StyledTableCell>
+                <StyledTableCell align="right">Runny Nose</StyledTableCell>
+                <StyledTableCell align="right">Difficulty Breathing</StyledTableCell>
+                <StyledTableCell align="right">Infection Prediction</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row, index) => (
+                <StyledTableRow key={index}>
+                  <StyledTableCell component="th" scope="row">
+                    {row.fever}&deg;F
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{row.body_pain}</StyledTableCell>
+                  <StyledTableCell align="right">{row.runny_nose}</StyledTableCell>
+                  <StyledTableCell align="right">{row.difficulty_breathing}</StyledTableCell>
+                  <StyledTableCell align="right">{row.infected}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </div>
   );
